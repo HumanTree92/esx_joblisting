@@ -21,7 +21,7 @@ function ShowJobListingMenu()
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'joblisting', {
 			title    = _U('job_center'),
-			align    = 'top-left',
+			align    = Config.MenuAlign,
 			elements = elements
 		}, function(data, menu)
 			TriggerServerEvent('esx_joblisting:setJob', data.current.job)

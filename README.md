@@ -1,7 +1,29 @@
 # About esx_joblisting
 
-Simple job listing script, you can specify what jobs you want to be whitelisted in db.
+Simple Job Listing Script.
 
+# Helpfull Info:
+* You can specify what jobs you want to be whitelisted in the Database.
+* You can allow players to become their Whitelisted Jobs through the Job Marker.
+
+# Requirements:
+* Required:
+  * [es_extended](https://github.com/ESX-Org/es_extended)
+* Optional:
+  * NONE
+
+# Download & Installation:
+1) Download the .zip.
+2) Extract the .zip or Open the .zip.
+3) Import `esx_joblisting.sql` in your database
+4) Place `esx_joblisting` in your ESX Directory
+5) Add `start esx_joblisting` to your server.cfg
+
+# Credits/Original Code:
+* [ESX-Org](https://github.com/ESX-Org)
+  * [esx_joblisting](https://github.com/StockholmCityRP/esx_extraitems)
+* [HaxersAlwaysWin](https://github.com/HaxersAlwaysWin)
+  * [esx_JobWhitelisting](https://github.com/HaxersAlwaysWin/ESX_JobWhitelisting)
 
 # Other Scripts:
 If you like this please check out some of my other stuff like
@@ -11,6 +33,7 @@ If you like this please check out some of my other stuff like
 * [esx_advancedweaponshop](https://github.com/HumanTree92/esx_advancedweaponshop)
 * [esx_advancedfuel](https://github.com/HumanTree92/esx_advancedfuel)
 * [esx_extraitems](https://github.com/HumanTree92/esx_extraitems)
+* [esx_joblisting](https://github.com/HumanTree92/esx_joblisting)
 * [esx_licenseshop](https://github.com/HumanTree92/esx_licenseshop)
 * [esx_vehiclespawner](https://github.com/HumanTree92/esx_vehiclespawner)
 * [FiveM_CustomMapAddons](https://github.com/HumanTree92/FiveM_CustomMapAddons)

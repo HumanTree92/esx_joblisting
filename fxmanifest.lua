@@ -2,7 +2,7 @@ fx_version 'adamant'
 
 game 'gta5'
 
-description 'ESX Job Listing'
+description 'ESX Job Listing with support for Whitelisted Jobs'
 
 version '1.1.0'
 
