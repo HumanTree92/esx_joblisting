@@ -22,8 +22,7 @@ Simple Job Listing Script.
 # Credits/Original Code:
 * [ESX-Org](https://github.com/ESX-Org)
   * [esx_joblisting](https://github.com/StockholmCityRP/esx_extraitems)
-* [HaxersAlwaysWin](https://github.com/HaxersAlwaysWin)
-  * [esx_JobWhitelisting](https://github.com/HaxersAlwaysWin/ESX_JobWhitelisting)
+* Little to no code was provided by some other crap script.
 
 # Other Scripts:
 If you like this please check out some of my other stuff like
