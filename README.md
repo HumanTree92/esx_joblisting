@@ -1,6 +1,5 @@
 # About esx_joblisting
-
-Simple Job Listing Script.
+Simple Job Listing Script - Edited by Human Tree92 ([Velociti Entertainment Customs & Wiki](http://www.velocitientertainment.com/customs/))
 
 # Helpfull Info:
 * You can specify what jobs you want to be whitelisted in the Database.
@@ -26,11 +25,14 @@ Simple Job Listing Script.
 
 # Other Scripts:
 If you like this please check out some of my other stuff like
-* [esx_advancedgarage](https://github.com/HumanTree92/esx_advancedgarage)
-* [esx_advancedvehicleshop](https://github.com/HumanTree92/esx_advancedvehicleshop)
-* [esx_advancedhospital](https://github.com/HumanTree92/esx_advancedhospital)
-* [esx_advancedweaponshop](https://github.com/HumanTree92/esx_advancedweaponshop)
+* [esx_advancedbanking](https://github.com/HumanTree92/esx_advancedbanking)
 * [esx_advancedfuel](https://github.com/HumanTree92/esx_advancedfuel)
+* [esx_advancedgarage](https://github.com/HumanTree92/esx_advancedgarage)
+* [esx_advancedholdup](https://github.com/HumanTree92/esx_advancedholdup)
+* [esx_advancedhospital](https://github.com/HumanTree92/esx_advancedhospital)
+* [esx_advancedjail](https://github.com/HumanTree92/esx_advancedjail)
+* [esx_advancedvehicleshop](https://github.com/HumanTree92/esx_advancedvehicleshop)
+* [esx_advancedweaponshop](https://github.com/HumanTree92/esx_advancedweaponshop)
 * [esx_extraitems](https://github.com/HumanTree92/esx_extraitems)
 * [esx_joblisting](https://github.com/HumanTree92/esx_joblisting)
 * [esx_licenseshop](https://github.com/HumanTree92/esx_licenseshop)
