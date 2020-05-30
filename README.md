@@ -1,13 +1,15 @@
 # About esx_joblisting
 Simple Job Listing Script - Edited by Human Tree92 ([Velociti Entertainment Customs & Wiki](http://www.velocitientertainment.com/customs/))
 
+I can not Guarantee that this will work with the Latest es_extended V2.
+
 # Helpfull Info:
 * You can specify what jobs you want to be whitelisted in the Database.
 * You can allow players to become their Whitelisted Jobs through the Job Marker.
 
 # Requirements:
 * Required:
-  * [es_extended](https://github.com/ESX-Org/es_extended)
+  * [es_extended V1 Final](https://github.com/ESX-Org/es_extended) or [extendedmode](https://github.com/extendedmode/extendedmode)
 * Optional:
   * NONE
 
