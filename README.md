@@ -17,16 +17,16 @@ Job Listing Script for ESX V1 Final or EXM - Edited by Human Tree92 ([Velociti E
   * NONE
 
 # Download & Installation:
-1) Download the .zip.
-2) Extract the .zip or Open the .zip.
-3) Import `esx_joblisting.sql` in your database
-4) Place `esx_joblisting` in your ESX Directory
-5) Add `start esx_joblisting` to your server.cfg
+1) Download Master or Release & Extract the .zip or Open the .zip.
+2) Import `esx_joblisting.sql` in your database
+3) Place `esx_joblisting` in your ESX Directory
+4) Add `start esx_joblisting` to your server.cfg
+5) Add `setr esx_MenuAlign "top-right"` to your server.cfg
 
 # Credits/Original Code:
 * [ESX-Org](https://github.com/ESX-Org)
   * [esx_joblisting](https://github.com/StockholmCityRP/esx_extraitems)
-* The ideal was from esx_JobWhitelisting which is no longer be supported.
+* The ideal was from esx_JobWhitelisting which is no longer being supported.
 
 # Other Scripts:
 If you like this please check out some of my other stuff like
