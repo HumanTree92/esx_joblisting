@@ -23,25 +23,44 @@ ESX.RegisterServerCallback('esx_joblisting:getJobsList', function(source, cb)
 		end
 
 		getPlayerData(source, function(data)
+			if data.fish > -1 then
+				table.insert(availableJobs, {job = 'fisherman', label = 'Fisherman'})
+			end
+
+			if data.fuel > -1 then
+				table.insert(availableJobs, {job = 'fueler', label = 'Fueler'})
+			end
+
+			if data.lumb > -1 then
+				table.insert(availableJobs, {job = 'lumberjack', label = 'Lumberjack'})
+			end
+
+			if data.mine > -1 then
+				table.insert(availableJobs, {job = 'miner', label = 'Miner'})
+			end
+
+			if data.butch > -1 then
+				table.insert(availableJobs, {job = 'slaughterer', label = 'Butcher'})
+			end
+
+			if data.tail > -1 then
+				table.insert(availableJobs, {job = 'tailor', label = 'Tailor'})
+			end
+
+			if data.taxi > -1 then
+				table.insert(availableJobs, {job = 'taxi', label = 'Taxi'})
+			end
+
 			if data.leo > -1 then
-				table.insert(availableJobs, {
-					job = "police",
-					label = "Policing/Staff"
-				})
+				table.insert(availableJobs, {job = 'police', label = 'Policing/Staff'})
 			end
 
 			if data.ems > -1 then
-				table.insert(availableJobs, {
-					job = "ambulance",
-					label = "Fire/Rescue"
-				})
+				table.insert(availableJobs, {job = 'ambulance', label = 'Fire/Rescue'})
 			end
 
 			if data.tow > -1 then
-				table.insert(availableJobs, {
-					job = "mechanic",
-					label = "Mechanic"
-				})
+				table.insert(availableJobs, {job = 'mechanic', label = 'Mechanic'})
 			end
 
 			cb(availableJobs)
@@ -63,7 +82,7 @@ AddEventHandler('esx_joblisting:setJob', function(job)
 	}, function(result)
 		if not result[1].whitelisted then
 			xPlayer.setJob(job, 0)
-		elseif job == "police" then
+		elseif job == 'police' then
 			getPlayerData2(xPlayer.identifier, function(data)
 				if data.leo then
 					xPlayer.setJob(job, data.leo)
@@ -71,7 +90,7 @@ AddEventHandler('esx_joblisting:setJob', function(job)
 					injection()
 				end
 			end)
-		elseif job == "ambulance" then
+		elseif job == 'ambulance' then
 			getPlayerData2(xPlayer.identifier, function(data)
 				if data.ems then
 					xPlayer.setJob(job, data.ems)
@@ -79,10 +98,66 @@ AddEventHandler('esx_joblisting:setJob', function(job)
 					injection()
 				end
 			end)
-		elseif job == "mechanic" then
+		elseif job == 'mechanic' then
 			getPlayerData2(xPlayer.identifier, function(data)
 				if data.tow then
 					xPlayer.setJob(job, data.tow)
+				else
+					injection()
+				end
+			end)
+		elseif job == 'fisherman' then
+			getPlayerData2(xPlayer.identifier, function(data)
+				if data.fish then
+					xPlayer.setJob(job, data.fish)
+				else
+					injection()
+				end
+			end)
+		elseif job == 'fueler' then
+			getPlayerData2(xPlayer.identifier, function(data)
+				if data.fuel then
+					xPlayer.setJob(job, data.fuel)
+				else
+					injection()
+				end
+			end)
+		elseif job == 'lumberjack' then
+			getPlayerData2(xPlayer.identifier, function(data)
+				if data.lumb then
+					xPlayer.setJob(job, data.lumb)
+				else
+					injection()
+				end
+			end)
+		elseif job == 'miner' then
+			getPlayerData2(xPlayer.identifier, function(data)
+				if data.mine then
+					xPlayer.setJob(job, data.mine)
+				else
+					injection()
+				end
+			end)
+		elseif job == 'slaughterer' then
+			getPlayerData2(xPlayer.identifier, function(data)
+				if data.butch then
+					xPlayer.setJob(job, data.butch)
+				else
+					injection()
+				end
+			end)
+		elseif job == 'tailor' then
+			getPlayerData2(xPlayer.identifier, function(data)
+				if data.tail then
+					xPlayer.setJob(job, data.tail)
+				else
+					injection()
+				end
+			end)
+		elseif job == 'taxi' then
+			getPlayerData2(xPlayer.identifier, function(data)
+				if data.taxi then
+					xPlayer.setJob(job, data.taxi)
 				else
 					injection()
 				end
@@ -97,18 +172,21 @@ end)
 function getPlayerData(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	-- Get Player Info
-	local result = MySQL.Sync.fetchAll('SELECT `leo_rank`, `ems_rank`, `tow_rank` FROM users WHERE identifier = @identifier', {
+	local result = MySQL.Sync.fetchAll('SELECT `leo_rank`, `ems_rank`, `tow_rank`, `fish_rank`, `fuel_rank`, `lumb_rank`, `mine_rank`, `butch_rank`, `tail_rank`, `taxi_rank` FROM users WHERE identifier = @identifier', {
 		['@identifier'] = xPlayer.identifier
 	})
 
-	local leo = result[1].leo_rank
-	local ems = result[1].ems_rank
-	local tow = result[1].tow_rank
-
 	local data = {
-		leo = leo,
-		ems = ems,
-		tow = tow
+		leo = result[1].leo_rank,
+		ems = result[1].ems_rank,
+		tow = result[1].tow_rank,
+		fish = result[1].fish_rank,
+		fuel = result[1].fuel_rank,
+		lumb = result[1].lumb_rank,
+		mine = result[1].mine_rank,
+		butch = result[1].butch_rank,
+		tail = result[1].tail_rank,
+		taxi = result[1].taxi_rank
 	}
 
 	cb(data)
@@ -117,18 +195,21 @@ end
 -- getPlayerData2
 function getPlayerData2(identifier, cb)
 	-- Get Player Info
-	local result = MySQL.Sync.fetchAll('SELECT `leo_rank`, `ems_rank`, `tow_rank` FROM users WHERE identifier = @identifier', {
+	local result = MySQL.Sync.fetchAll('SELECT `leo_rank`, `ems_rank`, `tow_rank`, `fish_rank`, `fuel_rank`, `lumb_rank`, `mine_rank`, `butch_rank`, `tail_rank`, `taxi_rank` FROM users WHERE identifier = @identifier', {
 		['@identifier'] = identifier
 	})
 
-	local leo = result[1].leo_rank
-	local ems = result[1].ems_rank
-	local tow = result[1].tow_rank
-
 	local data = {
-		leo = leo,
-		ems = ems,
-		tow = tow
+		leo = result[1].leo_rank,
+		ems = result[1].ems_rank,
+		tow = result[1].tow_rank,
+		fish = result[1].fish_rank,
+		fuel = result[1].fuel_rank,
+		lumb = result[1].lumb_rank,
+		mine = result[1].mine_rank,
+		butch = result[1].butch_rank,
+		tail = result[1].tail_rank,
+		taxi = result[1].taxi_rank
 	}
 
 	cb(data)

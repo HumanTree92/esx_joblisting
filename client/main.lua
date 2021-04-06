@@ -1,4 +1,6 @@
-local menuIsShowed, hasAlreadyEnteredMarker, isInMarker = false, false, false
+local CurrentActionData = {}
+local HasAlreadyEnteredMarker, IsInMainMenu = false, false
+local LastZone, CurrentAction, CurrentActionMsg
 ESX = nil
 
 Citizen.CreateThread(function()
@@ -6,9 +8,27 @@ Citizen.CreateThread(function()
 		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 		Citizen.Wait(0)
 	end
+
+	while ESX.GetPlayerData().job == nil do
+		Citizen.Wait(10)
+	end
+
+	ESX.PlayerData = ESX.GetPlayerData()
 end)
 
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	ESX.PlayerData = xPlayer
+end)
+
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+	ESX.PlayerData.job = job
+end)
+
+-- Show Job Menu
 function ShowJobListingMenu()
+	IsInMainMenu = true
 	ESX.TriggerServerCallback('esx_joblisting:getJobsList', function(jobs)
 		local elements = {}
 
@@ -26,48 +46,85 @@ function ShowJobListingMenu()
 		}, function(data, menu)
 			TriggerServerEvent('esx_joblisting:setJob', data.current.job)
 			ESX.ShowNotification(_U('new_job'))
+			IsInMainMenu = false
 			menu.close()
 		end, function(data, menu)
+			IsInMainMenu = false
 			menu.close()
+			CurrentAction = 'job_menu'
+			CurrentActionData = {}
 		end)
 
 	end)
 end
 
-AddEventHandler('esx_joblisting:hasExitedMarker', function(zone)
-	ESX.UI.Menu.CloseAll()
+-- Entered Marker
+AddEventHandler('esx_joblisting:hasEnteredMarker', function(zone)
+	if zone == 'JobLocs' then
+		CurrentAction = 'job_menu'
+		CurrentActionMsg = _U('job_menu')
+		CurrentActionData = {}
+	end
 end)
 
--- Activate menu when player is inside marker, and draw markers
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(1)
+-- Exited Marker
+AddEventHandler('esx_joblisting:hasExitedMarker', function(zone)
+	if not IsInMainMenu or IsInMainMenu then
+		ESX.UI.Menu.CloseAll()
+	end
 
-		local coords = GetEntityCoords(PlayerPedId())
-		isInMarker = false
+	CurrentAction = nil
+end)
 
-		for i=1, #Config.Zones, 1 do
-			local distance = GetDistanceBetweenCoords(coords, Config.Zones[i], true)
-
-			if distance < Config.DrawDistance then
-				DrawMarker(Config.MarkerType, Config.Zones[i], 0.0, 0.0, 0.0, 0, 0.0, 0.0, Config.ZoneSize.x, Config.ZoneSize.y, Config.ZoneSize.z, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, false, false, false, false)
-			end
-
-			if distance < (Config.ZoneSize.x / 2) then
-				isInMarker = true
-				ESX.ShowHelpNotification(_U('access_job_center'))
-			end
-		end
-
-		if isInMarker and not hasAlreadyEnteredMarker then
-			hasAlreadyEnteredMarker = true
-		end
-
-		if not isInMarker and hasAlreadyEnteredMarker then
-			hasAlreadyEnteredMarker = false
-			TriggerEvent('esx_joblisting:hasExitedMarker')
+-- Resource Stop
+AddEventHandler('onResourceStop', function(resource)
+	if resource == GetCurrentResourceName() then
+		if IsInMainMenu then
+			ESX.UI.Menu.CloseAll()
 		end
 	end
+end)
+
+-- Enter / Exit marker events & Draw Markers
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(0)
+		local playerCoords = GetEntityCoords(PlayerPedId())
+		local isInMarker, letSleep, currentZone = false, true
+
+		for k,v in pairs(Config.Locations) do
+			for i=1, #v.JobE, 1 do
+				local distance = #(playerCoords - v.JobE[i])
+
+				if distance < Config.DrawDistance then
+					letSleep = false
+
+					if Config.Marker.Type ~= -1 then
+						DrawMarker(Config.Marker.Type, v.JobE[i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Config.Marker.x, Config.Marker.y, Config.Marker.z, Config.Marker.r, Config.Marker.g, Config.Marker.b, 100, false, true, 2, false, nil, nil, false)
+					end
+
+					if distance < Config.Marker.x then
+						isInMarker, currentZone = true, 'JobLocs'
+					end
+				end
+			end
+		end
+
+		if (isInMarker and not HasAlreadyEnteredMarker) or (isInMarker and LastZone ~= currentZone) then
+			HasAlreadyEnteredMarker, LastZone = true, currentZone
+			LastZone = currentZone
+			TriggerEvent('esx_joblisting:hasEnteredMarker', currentZone)
+		end
+
+		if not isInMarker and HasAlreadyEnteredMarker then
+			HasAlreadyEnteredMarker = false
+			TriggerEvent('esx_joblisting:hasExitedMarker', LastZone)
+		end
+
+		if letSleep then
+			Citizen.Wait(500)
+		end
+	end	
 end)
 
 -- Create blips
@@ -92,9 +149,18 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 
-		if IsControlJustReleased(0, 38) and isInMarker and not menuIsShowed then
-			ESX.UI.Menu.CloseAll()
-			ShowJobListingMenu()
+		if CurrentAction then
+			ESX.ShowHelpNotification(CurrentActionMsg)
+
+			if IsControlJustReleased(0, 38) then
+				if CurrentAction == 'job_menu' then
+					ShowJobListingMenu()
+				end
+
+				CurrentAction = nil
+			end
+		else
+			Citizen.Wait(500)
 		end
 	end
 end)
